@@ -17,14 +17,18 @@
      var b = Number(prompt('请输入b'))
      var c = Number(prompt('请输入c'))
 
-     console.log((a + b) / c)
+     var x= (a + b) / c
+     console.log(Math.trunc(x))
    </script>
    
     <script id="ch0103/04" type="xxx">
      var a = Number(prompt('请输入a'))
      var b = Number(prompt('请输入b'))
 
-     console.log(a / b)
+     var x = a / b
+     var y = a - (b * b)
+     console.log(Math.trunc(x))
+     console.log(y)
    </script>
    <script id="ch0103/05" type="xxx">
     var a = Number(prompt('请输入a'))
@@ -39,11 +43,11 @@
     console.log(((b/a) * 100).toFixed(3) +"%")
   </script>
   <script id="ch0103/07" type="xxx">
+    var x = Number(prompt('请输入x'))
     var a = Number(prompt('请输入a'))
     var b = Number(prompt('请输入b'))
     var c = Number(prompt('请输入c'))
     var d = Number(prompt('请输入d'))
-    var x = Number(prompt('请输入x'))
     
     console.log((a * x * x * x + b * x * x + c * x + d).toFixed(7))
   </script>
@@ -58,13 +62,13 @@
     
     console.log((2 * r).toFixed(4))
     console.log((2 * pi * r).toFixed(4))
-    console.log((r * r).toFixed(4))
+    console.log((pi * r * r).toFixed(4))
   </script>
   <script id="ch0103/10" type="xxx">
     var r1 = Number(prompt('请输入r1'))
     var r2 = Number(prompt('请输入r2'))
     
-    console.log(1 / 1 / r1 + 1/ r2)
+    console.log((1 / (1 / r1 + 1 / r2)).toFixed(2))
   </script>
   <script id="ch0103/11" type="xxx">
     var a = Number(prompt('请输入a'))
@@ -81,20 +85,19 @@
   <script id="ch0103/13" type="xxx">
     var n = Number(prompt('请输入n'))
     var x = n % 10
-    var y = (n % 100 - x) / 10
-    var z = (n - (n % 100)) / 100
-    var m = x * 100 + y * 10 + z
+    var y = (n - x) / 10 % 10
+    var z = Math.trunc(n / 100)
     
-    console.log(m)
+    console.log(String(x) + String(y) + String(z))
   </script>
 </script>
 <script id="ch0103/14" type="xxx">
-  var r = Number(prompt('请输入r'))
-  var h = Number(prompt('请输入h'))
+  var h = Number(prompt('请输入r'))
+  var r = Number(prompt('请输入h'))
   var pi = 3.14159
-  var x = 20000 / (pi * r * r * h)
+  var x = 20 * 1000 / (pi * r * r * h)
 
-  console.log(x % 1 == 0? x  :  (+x.toFixed(0) + 1 ))
+  console.log(Math.ceil(x))
 </script>
 <script id="ch0103/15" type="xxx">
     var n = Number(prompt('请输入n'))
@@ -120,7 +123,13 @@
     var x3 = Number(prompt('请输入x3'))
     var y3 = Number(prompt('请输入y3'))
 
-    console.log((1/2)*(x1y2+x2y3+x3y1-x1y3-x2y1-x3y2))
+    var a = 3
+    var b = 4
+    var c = Math.sqrt(a * a + b * b)
+    var p = (a + b + c) / 2
+    var x = Math.sqrt(p * (p - a) * (p - b) * (p - c))
+
+    console.log(x.toFixed(2))
   </script>
   <script id="ch0103/18" type="xxx">
     var a1 = Number(prompt('请输入a1'))
@@ -145,7 +154,7 @@
 
     console.log(a * b)
   </script>
-  <script id="ch0103/19" type="xxx">
+  <script id="ch0103/20" type="xxx">
     var n = Number(prompt('请输入n'))
     
     console.log (Math.pow(2,n))
