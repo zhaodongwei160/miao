@@ -16,7 +16,7 @@ var zhaodongwei160 = function () {
     if (tem.length > 0) {
       result.push(tem)
     }
-    return reuslt
+    return result
   }
   //compact
   function compact(arr) {
@@ -33,7 +33,7 @@ var zhaodongwei160 = function () {
     return result
   }
   //uniqBy
-  function uniqBy(arr) {  
+  function uniqBy(arr) {
 
   }
   //flat
@@ -65,62 +65,83 @@ var zhaodongwei160 = function () {
     return result
   }
   //groupBy
-  function groupBy(collection,iteratees){
+  function groupBy(collection, iteratees) {
     var iteratees = iteratee(iteratees)
   }
   //forEach
-  function forEach(collection,predicate){
-   if(Array.isArray(collection)){
-     for(let i = 0; i < collection.length; i++){
-      predicate(collection[i], i, collection)
-     }
-   }
-   if(typeof collection == 'object'){
-     for(let k in collection){
-      predicate(collection[k], k, collection);
-       }
-     }
-     return collection;
-   }
-   //map
-   function map(arr,predicate){
-     let result = [];
-    if(Array.isArray(collection)){
-      for(let i = 0; i < collection.length; i++){
-        result.push(predicate(collection[i], i, collection));
+  function forEach(collection, predicate) {
+    if (Array.isArray(collection)) {
+      for (let i = 0; i < collection.length; i++) {
+        predicate(collection[i], i, collection)
       }
     }
-    if(typeof collection == 'object'){
-      for(let k in collection){
-        result.push(predicate(collection[k], k, collection));
-        }
+    if (typeof collection == 'object') {
+      for (let k in collection) {
+        predicate(collection[k], k, collection);
       }
-      return result;
     }
-    //filter
-    function filter(arr){
-      let result = []
-      if(Array.isArray(arr)){
-        result.push(forEach(arr[i],i,arr))
+    return collection;
+  }
+  //map
+  function map(arr, predicate) {
+    let result = [];
+    if (Array.isArray(arr)) {
+      for (let i = 0; i < arr.length; i++) {
+        result.push(predicate(arr[i], i, arr));
       }
-      if(typeof arr == "object"){
-        for(let k in arr){
-          result.push(arr[k],k,arr)
-        }
-      }
-      return result
     }
+    if (typeof arr == 'object') {
+      for (let k in arr) {
+        result.push(predicate(arr[k], k, arr));
+      }
+    }
+    return result;
+  }
+  //filter
+  function filter(arr) {
+    let result = []
+    if (Array.isArray(arr)) {
+      result.push(forEach(arr[i], i, arr))
+    }
+    if (typeof arr == "object") {
+      for (let k in arr) {
+        result.push(arr[k], k, arr)
+      }
+    }
+    return result
+  }
+  //keys
+  function keys(arr) {
+    let result = []
+    for (let k in arr) {
+      result.push(k)
+    }
+    return result
+  }
+  //values
+  function values(arr) {
+    let result = []
+    for (let k in arr) {
+      result.push(arr[k])
+    }
+    return result
+  }
+  //sortBy
+  function sortBy(arr) {
 
+  }
   return {
     chunk: chunk,
     compact: compact,
     uniq: uniq,
-    flat:flat,
-    flattenDeep:flattenDeep,
-    flattenDepth:flattenDepth,
-    forEach:forEach,
-    filter:filter,
-    map:map,
+    flat: flat,
+    flattenDeep: flattenDeep,
+    flattenDepth: flattenDepth,
+    forEach: forEach,
+    filter: filter,
+    map: map,
+    keys: keys,
+    values: values,
 
   }
 }()
