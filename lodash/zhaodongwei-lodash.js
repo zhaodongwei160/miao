@@ -1,4 +1,4 @@
-var zhaodongwei = function () {
+var zhaodongwei160 = function () {
   //chunk
   function chunk(arr, size = 1) {
     var result = []
@@ -115,6 +115,12 @@ var zhaodongwei = function () {
     chunk: chunk,
     compact: compact,
     uniq: uniq,
+    flat:flat,
+    flattenDeep:flattenDeep,
+    flattenDepth:flattenDepth,
+    forEach:forEach,
+    filter:filter,
+    map:map,
 
   }
 }()
