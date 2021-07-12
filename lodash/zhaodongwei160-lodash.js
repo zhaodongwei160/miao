@@ -36,8 +36,8 @@ var zhaodongwei160 = function () {
   function uniqBy(arr) {
 
   }
-  //flat
-  function flat(arr) {
+  //flatten
+  function flatten(arr) {
     return [].concat(...arr)
   }
   //flattenDeep
@@ -85,27 +85,17 @@ var zhaodongwei160 = function () {
   //map
   function map(arr, predicate) {
     let result = [];
-    if (Array.isArray(arr)) {
-      for (let i = 0; i < arr.length; i++) {
-        result.push(predicate(arr[i], i, arr));
-      }
+    for(let i = 0; i < arr.length; i++){
+      result.push(predicate(arr[i],i,arr))
     }
-    if (typeof arr == 'object') {
-      for (let k in arr) {
-        result.push(predicate(arr[k], k, arr));
-      }
-    }
-    return result;
+    return result
   }
   //filter
-  function filter(arr) {
+  function filter(arr,predicate) {
     let result = []
-    if (Array.isArray(arr)) {
-      result.push(forEach(arr[i], i, arr))
-    }
-    if (typeof arr == "object") {
-      for (let k in arr) {
-        result.push(arr[k], k, arr)
+    for(let k in arr){
+      if(predicate(arr[k])){
+        result.push(arr[k])
       }
     }
     return result
@@ -130,11 +120,17 @@ var zhaodongwei160 = function () {
   function sortBy(arr) {
 
   }
+  //isEqual
+  function isEqual(arr1,arr2){
+    if(typeof arr1 == "number" && typeof arr2 == "number"){
+
+    }
+  }
   return {
     chunk: chunk,
     compact: compact,
     uniq: uniq,
-    flat: flat,
+    flatten: flatten,
     flattenDeep: flattenDeep,
     flattenDepth: flattenDepth,
     forEach: forEach,
