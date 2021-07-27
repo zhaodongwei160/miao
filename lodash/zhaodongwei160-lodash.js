@@ -118,10 +118,7 @@ var zhaodongwei160 = function () {
     return result
   }
   //uniqBy
-  function uniqBy(arr,predicate) {
-    let result = []
-    let seen = []
-    for()
+  function uniqBy(arr,predicate) {  
   }
   //flatten
   function flatten(arr) {
@@ -404,7 +401,7 @@ var zhaodongwei160 = function () {
     arr.sort()
     return arr
   }
-  
+
 
 
 
