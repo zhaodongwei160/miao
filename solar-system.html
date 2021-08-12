@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #sun,#earth,#moon{
+      display: block;
+      position:absolute;
+      border-radius: 99999px;
+    }
+    #sun{
+      width: 100px;
+      height: 100px;
+      background-image: url(./solarStar/sun.png);
+      background-size: 100px;
+      animation: spin linear 50s infinite;
+    }
+    
+    #earth{
+      width: 50px;
+      height: 50px;
+      background-image: url(./solarStar/earth.png);
+      background-size: 50px;
+      animation:spin linear 20s infinite;
+      
+    }
+    #moon{
+      width: 16px;
+      height: 16px;
+      background-image: url(./solarStar/moon.png);
+      background-size: 16px;
+    }
+    #bacImg{
+      display: block;
+      position:relative;
+      width: 100vw;
+      height: 100vw;
+      background-image: url(./solarStar/universe.jpg);
+      
+    }
+    #container{
+      left:200px;
+      top:200px;
+      width: 100px;
+      height: 100px;
+      position:relative;
+    }
+    @keyframes spin {
+        from{transform:rotate(0deg);
+        }
+        to{transform:rotate(360deg);
+        }
+      }
+  </style>
+</head>
+<body>
+  <div id="bacImg">
+    <div id="container">
+      <div id="sun"></div>
+      <div id ="sunline"></div>
+      <div id="earth"></div>
+      <div id="moon"></div>
+    </div>
+</div>
+
+  <script>
+    var sun = document.querySelector('#sun')
+    var earth = document.querySelector('#earth')
+    var moon = document.querySelector('#moon')
+    
+
+    var sunAngle = 0
+    var earthAngle2 = 0
+    var moonAngle3 = 0
+
+    requestAnimationFrame(function animate(time){
+      sunAngle = time * 0.0001
+      earthAngle2 = time * 0.0005
+      moonAngle3 = time * 0.004
+
+      var x1 = Math.cos(sunAngle) * 300 - 50
+      var y1 = Math.sin(sunAngle) * 300 - 50
+      sun.style.left = x1 + 'px'
+      sun.style.top = y1 + 'px'
+
+      var x2 = Math.cos(earthAngle2) * 250 + x1 -25 +50
+      var y2 = Math.sin(earthAngle2) * 250 + y1 -25 +50
+      earth.style.left = x2 + 'px'
+      earth.style.top = y2 + 'px'
+
+      var x3 = Math.cos(moonAngle3) * 70 + x2 -8 + 25
+      var y3 = Math.sin(moonAngle3) * 70 + y2 -8 + 25
+      moon.style.left = x3 + 'px'
+      moon.style.top = y3 + 'px'
+      requestAnimationFrame(animate)
+    })
+  </script>
+</body>
+</html>

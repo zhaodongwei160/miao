@@ -263,12 +263,24 @@ var zhaodongwei160 = function () {
     return result
   }
   //diffrence
-  function diffrence(arr,value){
+  function difference(arr,value){
     let result = []
     let temp = [].concat(...value)
 
    for(let i = 0; i <arr.length; i++){
      if(!temp.includes(arr[i])){
+       result.push(arr[i])
+     }
+   }
+   return result
+  }
+  //differenceBy
+  function differenceBy (arr, value, predicate){
+    let result = []
+    let temp = [].concat(...value)
+
+   for(let i = 0; i <arr.length; i++){
+     if(!predicate(temp).includes.predicate(arr[i])){
        result.push(arr[i])
      }
    }
@@ -401,6 +413,20 @@ var zhaodongwei160 = function () {
     arr.sort()
     return arr
   }
+  //fromPairs
+  function fromPairs(pairs) {
+    let result = [].concat(...pairs)
+    let obj = {}
+    for(let key of result){
+      if(typeof key == "string"){
+        obj.key = key
+      }else if(typeof key == "number"){
+        obj.val = key
+      }
+    }
+    return obj
+  }
+
 
 
 
@@ -419,7 +445,7 @@ var zhaodongwei160 = function () {
     values: values,
     isEqual:isEqual,
     concat:concat,
-    diffrence:diffrence,
+    difference:difference,
     drop:drop,
     dropRight:dropRight,
     fill:fill,

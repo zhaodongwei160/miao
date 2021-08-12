@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  .box1{
+    width: 70px;
+    height: 50px;
+    position: absolute;
+    background-color: red;
+  }
+  .box2{  
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    background-color: blue;
+  }
+</style>
+<body>
+  <div class="box1" style="left:1000px;top:40px;right:10px;bottom:10px"></div>
+  <div class="box2" style="left:40px;top:50px;right:20px;bottom:20px"></div>
+  <script>
+    var box1 = document.querySelector('.box1')
+    var box2 = document.querySelector('.box2')
+    var numVx = 0
+    var numVy = 0
+
+    var letterVx = 0
+    var letterVy = 0
+
+    var pressRight = false
+    var pressLeft = false
+    var pressUp = false
+    var pressDown = false
+
+    var pressD = false
+    var pressA = false
+    var pressS = false
+    var pressW = false
+
+    // document.addEventListener('keydown',function(event){
+    //   if(event.key == "ArrowRight"){   //不能动的原因： 当一个数字不是很标准的时候需要parseInt，因为读取到的值后面带有px单位
+    //     box1.style.left = parseInt(box1.style.left) + 1 + "px"
+    //   }
+    // })
+
+    document.addEventListener('keydown',function(e){
+      //方向键
+      if(e.key == 'ArrowRight'){
+        pressRight = true
+        numVx = 1
+      }
+      if(e.key == 'ArrowLeft'){
+        pressLeft = true
+        numVx = -1
+      }
+      if(e.key == 'ArrowUp'){
+        pressUp = true
+        numVy = -1
+      }
+      if(e.key == 'ArrowDown'){
+        pressDown = true
+        numVy = 1
+      }
+      //字母键
+      if(e.key == 'd'){
+        pressD = true
+        letterVx = 1
+      }
+      if(e.key == 'a'){
+        pressA = true
+        letterVx = -1
+      }
+      if(e.key == 'w'){
+        pressW = true
+        letterVy = -1
+      }
+      if(e.key == 's'){
+        pressS = true
+        letterVy = 1
+      }
+    })
+    
+    document.addEventListener('keyup',function(e){
+      // 方向键 向左
+      if(e.key == 'ArrowRight'){  //左键up，左键则为false，判断右键状态
+        pressRight = false
+        if(pressLeft){
+          numVx = -1
+        }else{
+          numVx = 0
+        }
+      }
+      //向右
+      if(e.key == 'ArrowLeft'){
+        pressLeft = false
+        if(pressRight){
+          numVx = 1
+        }else{
+          numVx = 0
+        }
+      }
+      //向上
+      if(e.key == 'ArrowUp'){  
+        pressUp = false
+        if(pressDown){
+          numVy = -1
+        }else{
+          numVy = 0
+        }
+      }
+      //向下
+      if(e.key == 'ArrowDown'){
+        pressDown = false
+        if(pressUp){
+          numVy = 1
+        }else{
+          numVy = 0
+        }
+      }
+      //字母键
+       //向左
+       if(e.key == 'd'){  //左键up，左键则为false，判断右键状态
+        pressD = false
+        if(pressA){
+          letterVx = -1
+        }else{
+          letterVx = 0
+        }
+      }
+      //向右
+      if(e.key == 'a'){
+        pressA = false
+        if(pressD){
+          letterVx = 1
+        }else{
+          letterVx = 0
+        }
+      }
+      //向上
+      if(e.key == 'w'){  
+        pressW = false
+        if(pressS){
+          letterVy = -1
+        }else{
+          letterVy = 0
+        }
+      }
+      //向下
+      if(e.key == 's'){
+        pressS = false
+        if(pressW){
+          letterVy = 1
+        }else{
+          letterVy = 0
+        }
+      }
+    })
+    var lastTime = null
+    requestAnimationFrame(function move(time){
+      var timeDiff = time- lastTime
+      lastTime = time    //目前浏览器的运行时间是大约35ms/帧，为保证画面的流畅，需要保证每为16ms/帧
+      if(Math.abs(parseFloat(box1.style.left) - parseFloat(box2.style.left)) < 50 && Math.abs(parseFloat(box1.style.top) - parseFloat(box2.style.top)) < 50){
+        alert('YOU LOSE!')
+      }
+
+      box1.style.left = parseFloat(box1.style.left) + numVx * timeDiff * 0.1+ "px"
+      box1.style.top = parseFloat(box1.style.top) + numVy * timeDiff * 0.1+ 'px'
+
+      box2.style.left = parseFloat(box2.style.left) + letterVx * timeDiff * 0.1+ "px"
+      box2.style.top = parseFloat(box2.style.top) + letterVy * timeDiff * 0.1+ 'px'
+      requestAnimationFrame(move)
+    })
+
+  </script>
+</body>
+</html>

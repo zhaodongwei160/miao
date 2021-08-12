@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function scrollSpy (contentNode, tocNode) {
+      var headers = contentNode.querySelectorAll('h1,h2,h3')
+      var idPreFix = Math.random()*toString(16)*slice(2) //随机生成id
+      var idCount = 0
+      for(var header of headers){
+        var anhor = document.createElement('a')
+        anhor.textContent = header.textContent
+      }
+      window.addEventListener('scroll',function(e){
+        var box = headers.map(it => it.getBoundingClintRect())
+        var curIdx = boxes.findIndex(it => it.y>0)//findIndex() 返回第一个满足条件的元素的下标 
+        var curHeader = headers[curIdx]
+        var curId = curHeader.id
+        var selector = `.toc-item[href="#${curId}"]`
+      })
+    }
+  </script>
+</body>
+</html>

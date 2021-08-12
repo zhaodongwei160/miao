@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  svg {
+    border: 2px red solid;
+    width: 500px;
+    height: 500px;
+  }
+  .toolbars{
+    border: 1px black solid;
+    display: inline-block;
+  }
+</style>
+
+<body>
+  <svg></svg>
+  <br>
+  工具：<div class='toolbars'></label> <button onclick="tool='line'">一</button> <button onclick="tool='circle'">⚪</button>   <button onclick=" tool='rect'">口</button>  <button onclick='clean()'>清空页面</button></div>
+  <br>
+  颜色:    <input type="color" id="colorInput">
+  <br>
+  线条粗细:<input type="range" min="1" max="10" value="2" id="widthInput">
+  <span id="value-widthInput">2</span>
+  <script>
+    //不断的创建节点是一种比较浪费的写法，而且也比较影响性能
+
+    // var svg = document.querySelector('svg')
+    // var lastPos = null
+
+    // document.addEventListener('mousedown',function(e){
+    //   function drawDot(e){
+    //     var pos = mousePos(svg)
+    //     var line = document.createElementNS("http://www.w3.org/2000/svg", 'line')
+
+    //     if(lastPos == null){
+    //       line.setAttribute('x1',pos.x)
+    //       line.setAttribute('y1',pos.y)
+    //       line.setAttribute('x2',pos.x)
+    //       line.setAttribute('y2',pos.y)
+    //       line.setAttribute('stroke', 'black')
+    //       line.setAttribute('stroke-width', '2')
+    //     }else{
+    //       line.setAttribute('x1',pos.x)
+    //       line.setAttribute('y1',pos.y)
+    //       line.setAttribute('x2',lastPos.x)
+    //       line.setAttribute('y2',lastPos.y)
+    //       line.setAttribute('stroke','black')
+    //       line.setAttribute('stroke-width', '2')
+    //     }
+    //     lastPos = pos
+    //     svg.append(line)
+    //   }
+
+    //   document.addEventListener('mousemove', drawDot)
+    //   document.addEventListener('mouseup',function once(){
+    //     lastPos = null
+    //     document.removeEventListener('mousemove',drawDot)
+    //     document.removeEventListener('mouseup',once)
+    //   })
+    // })
+
+    // function mousePos(node){
+    //   var box = node.getBoundingClientRect()
+
+    //   return {
+    //     x:window.event.clientX - box.x,
+    //     y:window.event.clientY - box.y,
+    //   }
+    // }
+
+    //撤回
+    var svg = document.querySelector('svg')
+    var tool = 'line'
+    // var lastPos = null
+    // var bihua = 0   //通过记录笔画次数来撤销一整条线段
+    document.addEventListener('keydown', function (e) {
+      if (e.ctrlKey && e.key == 'z') {
+        if (svg.lastElementChild) {
+          svg.removeChild(svg.lastElementChild)
+          // var bihua = svg.lastElementChild.dataset.bihua   //dataset获取自定义属性
+          // while(svg.lastElementChild && svg.lastElementChild.dataset.bihua == bihua ){
+          //   svg.removeChild(svg.lastElementChild)
+          // }
+        }
+
+        // svg.lastElementChild && svg.removeChild(svg.lastElementChild)
+      }
+    })
+
+    document.addEventListener('mousedown', function (e) {
+      //画线
+      if (tool == 'line') {
+        // bihua++
+        // var g = document.createElementNS("http://www.w3.org/2000/svg", 'g')  
+        // svg.append(g)
+
+        //当鼠标按下去创建一个polyline
+        var pos = mousePos(svg)
+        var polyline = document.createElementNS("http://www.w3.org/2000/svg", 'polyline')
+
+        //polyline的属性
+        polyline.setAttribute('fill', 'none')
+        polyline.setAttribute('stroke', colorInput.value)
+        polyline.setAttribute('stroke-width', widthInput.value)
+        polyline.setAttribute('stroke-linecap', 'round')
+        polyline.setAttribute('stroke-linejoin', 'round')
+
+        //将polyline设置当页面上
+        svg.append(polyline)
+        //polyline 的第一个点
+        var points = `${pos.x} ${pos.y} `
+        polyline.setAttribute('points', points)   //polyline属性
+
+        //每次当鼠标移动的时候，把polyline的坐标加到新的坐标上
+
+        function drawDot(e) {
+          var pos = mousePos(svg)
+          points += `${pos.x} ${pos.y} `
+          polyline.setAttribute('points', points)
+
+          // var line = document.createElementNS("http://www.w3.org/2000/svg", 'line')  
+          // if(lastPos == null){
+          //   line.setAttribute('x1',pos.x)
+          //   line.setAttribute('y1',pos.y)
+          // }else{
+          //   line.setAttribute('x1',lastPos.x)
+          //   line.setAttribute('y1',lastPos.y)
+          // }
+          // // line.setAttribute('data-bihua',bihua)
+          // line.setAttribute('x2',pos.x)
+          // line.setAttribute('y2',pos.y)
+          // line.setAttribute('stroke',colorInput.value)
+          // line.setAttribute('stroke-width',widthInput.value)
+          // line.setAttribute('stroke-linecap', 'round')
+          // lastPos = pos
+          // g.append(line)
+        }
+
+        document.addEventListener('mousemove', drawDot)
+        document.addEventListener('mouseup', function once() {
+          lastPos = null
+          document.removeEventListener('mousemove', drawDot)
+          document.removeEventListener('mouseup', once)
+        })
+      }
+
+      //画圆
+      if (tool == 'circle') {
+        var ellipse = document.createElementNS("http://www.w3.org/2000/svg", 'ellipse')
+        svg.append(ellipse)
+        ellipse.setAttribute('stroke', colorInput.value)
+        ellipse.setAttribute('fill', 'none')
+        ellipse.setAttribute('stroke-width', widthInput.value)
+
+        var startPos = mousePos(svg)
+        function drawEillpse() {
+          var currPos = mousePos(svg)
+          var cx = (startPos.x + currPos.x) / 2
+          var cy = (startPos.y + currPos.y) / 2
+          ellipse.setAttribute('cx', cx)
+          ellipse.setAttribute('cy', cy)
+
+          var rx = Math.abs(startPos.x - currPos.x) / 2
+          var ry = Math.abs(startPos.y - currPos.y) / 2
+          ellipse.setAttribute('rx', rx)
+          ellipse.setAttribute('ry', ry)
+        }
+        document.addEventListener('mousemove', drawEillpse)
+        document.addEventListener('mouseup', function once() {
+          document.removeEventListener('mousemove', drawEillpse)
+          document.removeEventListener('mouseup', once)
+        })
+      }
+      //画矩形
+      if(tool == 'rect'){
+        var rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect')
+        svg.append(rect)
+
+        rect.setAttribute('stroke',colorInput.value)
+        rect.setAttribute('fill', 'none')
+        rect.setAttribute('stroke-width', widthInput.value)
+
+        var startPos = mousePos(svg)
+        function drawRect(){
+          var currPos = mousePos(svg)
+          if(startPos.x < currPos.x){
+          var x = startPos.x 
+          rect.setAttribute('x', x)
+          }else{
+            x = currPos.x
+            rect.setAttribute('x', x)
+          }
+          if(startPos.y < currPos.y){
+            var y = startPos.y
+            rect.setAttribute('y', y)
+          }else{
+            y = currPos.y 
+            rect.setAttribute('y', y)
+          }
+          
+          var rectWidth = Math.abs(startPos.x - currPos.x) 
+          var rectHeight = Math.abs(startPos.y - currPos.y) 
+          rect.setAttribute('width',rectWidth)
+          rect.setAttribute('height',rectHeight)
+        }
+        document.addEventListener('mousemove', drawRect)
+        document.addEventListener('mouseup', function once() {
+          document.removeEventListener('mousemove', drawRect)
+          document.removeEventListener('mouseup', once)
+        })
+      }
+    })
+    //清空页面
+    function clean(e){
+        return svg.innerHTML = ''
+    }
+    
+      
+
+    //设置线条粗细
+    var widthInput = document.querySelector('#widthInput')
+    var value_widthInput = document.querySelector("#value-widthInput")
+    widthInput.addEventListener('input', function (e) {
+      value_widthInput.textContent = widthInput.value
+    })
+    //找到svg上鼠标位置
+    function mousePos(node) {
+      var box = node.getBoundingClientRect()
+      return {
+        x: window.event.clientX - box.x,
+        y: window.event.clientY - box.y,
+      }
+    }
+
+  </script>
+</body>
+
+</html>
