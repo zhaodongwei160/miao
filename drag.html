@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  .box {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    user-select: none;
+    
+  }
+</style>
+
+<body>
+  <div class='box' style="left: 20px; top:20px;background-color:rgb(143,223,248);"></div>
+  <div class='box' style="left: 30px; top:30px;background-color:rgb(251,207,98);"></div>
+  <div class='box' style="left: 40px; top:40px;background-color:rgb(167,209,99);"></div>
+  <script>
+    //首先，在元素里面点击鼠标后才需要考虑鼠标移动的问题，然后再考虑元素移动的位置
+    // var box = document.querySelector('.box')
+    var maxZindex = 4
+    document.addEventListener('mousedown', function (e) {
+      if (!e.target.classList.contains('box')) {
+        return
+      }
+      var black
+      e.target.style.zIndex = maxZindex++  //z-index 必须写成zIndex,js规则里必须写成驼峰式
+      var rdColor = Math.random() * 255
+      var rdColor2 = Math.random() * 255
+      var rdColor3 = Math.random() * 255
+      e.target.style.backgroundColor = 'rgb(' + rdColor + ',' + rdColor2 + ',' + rdColor3 + ')'
+      //鼠标的起点
+      var startX = e.clientX
+      var startY = e.clientY
+      //元素的起点
+      var elemStartX = parseFloat(e.target.style.left)
+      var elemStartY = parseFloat(e.target.style.top)
+
+      window.addEventListener('mousemove', function moved(elem) {
+        if (elem.which !== 1) {
+          removeEventListener('mousemove', moved)
+        }
+        var currX = elem.clientX
+        // if(box.style.left > window.innerWidth - box.offSetWidth){
+        //   box.style.left = window.innerWidth - box.offSetWidth
+        // }
+        var currY = elem.clientY
+
+        //鼠标移动的距离
+        var dx = currX - startX
+        var dy = currY - startY
+        if (elemStartX < 0) {
+          elemStartX = 0
+        }
+        if (elemStartY < 0) {
+          elemStartY = 0
+        }
+        // startX = currX
+        // startY = currY
+
+        //元素的移动距离加上鼠标的移动距离
+        var left = elemStartX + dx
+        //磁吸效果
+        if (left < 40) {
+          left = 0
+        }
+        if (left > window.innerWidth - e.target.offsetWidth - 40) {
+          left = window.innerWidth - e.target.offsetWidth
+        }
+        // left = Math.max(left, 0)
+        // left = Math.min(left,window.innerWidth - box.offsetWidth)
+        var top = elemStartY + dy
+        if (top < 40) {
+          top = 0
+        }
+
+        if (top > window.innerHeight - e.target.offsetHeight -40) {
+          top = window.innerHeight - e.target.offsetHeight
+        }
+        // top = Math.max(top, 0)
+        // top = Math.min(top,window.innerHeight - box.offsetHeight)
+
+        e.target.style.left = left + 'px'
+        e.target.style.top = top + 'px'
+      })
+    })
+
+  </script>
+</body>
+
+</html>
